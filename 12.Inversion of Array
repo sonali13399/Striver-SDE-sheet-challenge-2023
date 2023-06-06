@@ -1,0 +1,43 @@
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    static long count=0;
+    public static long getInversions(long A[], int n) {
+        // Write your code here.
+        mergeSort(A,0,n-1);
+        return count;
+    }
+    public static void mergeSort(long[] arr , int start , int end){
+        if(start>=end){
+        return;
+        }
+        int mid = (start+end)/2;
+
+        mergeSort(arr,start,mid);
+        mergeSort(arr,mid+1,end);
+        merge(arr,start,mid,end);
+    }
+
+    public static void merge(long []arr , int start , int mid , int end){
+        long [] left = Arrays.copyOfRange(arr,start,mid+1);
+        long [] right = Arrays.copyOfRange(arr,mid+1,end+1);
+        int ptr1 =0 , ptr2 =0 , index =start; // COMMON MISTAKE : index =0 , this will fail for input : 45 10 15 25 50
+        while(ptr1<left.length && ptr2<right.length ){
+            if(left[ptr1] <= right[ptr2]){
+            arr[index++] = left[ptr1++];
+            }else{
+            //System.out.println(count +":"+ left[ptr1] +":"+ right[ptr2]);
+            arr[index++] = right[ptr2++];
+            count = (count + (left.length - ptr1))  ; // COMMON MISTAKE : mid-ptr1
+            }
+        }
+
+        while(ptr1<left.length){
+        arr[index++] = left[ptr1++];
+        }
+
+        while(ptr2<right.length){
+        arr[index++] = right[ptr2++];
+        }
+    }
+}
