@@ -1,0 +1,48 @@
+class Solution {
+    public int reversePairs(int[] nums) {
+        int s=0;int e=nums.length-1;
+       
+        int ans = invCount(nums,s,e);
+        return ans;
+    }
+    public int invCount(int[] nums,int s,int e){
+        if(s==e)return 0;
+        int m=(s+e)/2;
+        int x=invCount(nums,s,m);
+        int y=invCount(nums,m+1,e);
+        int z=merge(nums,s,e,m);
+        return x+y+z;
+    }
+    public int merge(int[] nums,int s,int e,int m){
+        int p1=s,p2=m+1;
+        int[] c=new int[e-s+1];int index=0,count=0;
+         while(p1<=m && p2<=e){
+            if((long)nums[p1]>2*(long)nums[p2]){
+                    count += m-p1+1;
+                p2++;
+                } else{
+                p1++;
+            }
+         }
+        p1=s;p2=m+1;
+        while(p1<=m && p2<=e){
+            if(nums[p1]<= nums[p2]){
+                c[index]=nums[p1];p1++;index++;
+            }else{
+                c[index]=nums[p2];
+                p2++;index++;
+            }
+        }
+        while(p1<=m){
+            c[index]=nums[p1];p1++;index++;
+        }
+        while(p2<=e){
+            c[index]=nums[p2];p2++;index++;
+        }
+        //copy
+        for(int i=0;i<c.length;i++){
+            nums[i+s]=c[i];
+        }
+        return count;
+    }
+}
