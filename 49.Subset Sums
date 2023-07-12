@@ -1,0 +1,19 @@
+class Solution{
+   ArrayList<Integer> subsetSums(ArrayList<Integer> arr, int N){
+        // code here
+        ArrayList<Integer> res = new ArrayList<>();
+        allPairCount(arr,res,0,0,N);
+        Collections.sort(res);
+        return res;
+    }
+    private void allPairCount(ArrayList<Integer> arr,ArrayList<Integer> list ,int index,int sum,int N){
+          if(index == N){
+              list.add(sum);return;
+          }    
+          
+            allPairCount(arr,list,index+1,sum+arr.get(index),N);
+            allPairCount(arr,list,index+1,sum,N);
+          
+       
+   }
+}
