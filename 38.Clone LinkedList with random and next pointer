@@ -1,0 +1,45 @@
+/*
+// Definition for a Node.
+class Node {
+    int val;
+    Node next;
+    Node random;
+
+    public Node(int val) {
+        this.val = val;
+        this.next = null;
+        this.random = null;
+    }
+}
+*/
+
+class Solution {
+    public Node copyRandomList(Node head) {
+        if(head==null){
+            return null;
+        }
+        Node clone_head=new Node(head.val);
+        
+        Map<Node,Node> map = new  HashMap<>();
+        map.put(head,clone_head);
+        
+        Node curr=head.next;
+        Node clone_curr=clone_head;
+        while(curr!=null){
+            Node new_clone = new Node(curr.val);
+            clone_curr.next = new_clone;
+            map.put(curr,new_clone);
+            curr=curr.next;
+            clone_curr=clone_curr.next;
+        }
+        
+        clone_curr=clone_head;
+        curr=head;
+        while(curr!=null && clone_curr!=null){
+            clone_curr.random = map.get(curr.random);
+            curr=curr.next;clone_curr=clone_curr.next;
+        }
+        return clone_head;
+    }
+    
+}
