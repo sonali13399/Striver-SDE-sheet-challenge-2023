@@ -1,0 +1,25 @@
+class Solution {
+     List<List<Integer>> result = new ArrayList<>();
+
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        dfs(candidates, target, 0, new ArrayList<>());
+        return result;
+    }
+    
+    public void dfs(int[] candidates, int target, int index, List<Integer> list){
+	   //Since the sum can go below 0, we need to check for this condition
+        if(target<0)return;
+        else if(target==0){  
+		  //Add the list to the result list when target reaches 0 i.e. numbers sum is equal to target
+            result.add(new ArrayList<>(list));
+            return;
+        }else{
+            for(int i=index; i<candidates.length; i++){
+                list.add(candidates[i]);
+				//Since we can use the same number again, we will not increment the index variable here
+                dfs(candidates, target-candidates[i], i, list);
+                list.remove(list.size()-1);
+            }
+        }
+    }
+}
