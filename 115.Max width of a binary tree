@@ -1,0 +1,30 @@
+class Pair{
+    TreeNode node;
+    int idx;
+    Pair(TreeNode node,int idx){
+        this.node=node;this.idx=idx;
+    }
+}
+class Solution {
+    public int widthOfBinaryTree(TreeNode root) {
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Pair(root,0));
+        int maxPath = Integer.MIN_VALUE;
+        while(!q.isEmpty()){
+            int size=q.size();int left=0,right=0;
+            for(int i=0;i<size;i++){
+                Pair p = q.remove();
+                if(p.node.left != null){
+                    q.add(new Pair(p.node.left,2*(p.idx)+1));
+                }
+                if(p.node.right !=null){
+                    q.add(new Pair(p.node.right,2*(p.idx)+2));
+                }
+                if(i==0){left = p.idx;}
+                if(i==size-1){right = p.idx;}
+            }
+            maxPath = Math.max(maxPath, (right-left)+1);
+        }
+        return maxPath;
+    }
+}
