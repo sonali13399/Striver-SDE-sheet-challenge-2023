@@ -1,0 +1,41 @@
+public class Solution {
+    static class Pair{
+        BinaryTreeNode node;
+        int dist;
+        Pair(BinaryTreeNode node,int dist){
+            this.node=node;this.dist=dist;
+        }
+    }
+    public static ArrayList<Integer> bottomView(BinaryTreeNode root) {
+         // Write your code here.         
+         ArrayList<Integer> res = new ArrayList<>();
+
+         Map<Integer,List<Integer>> map = new HashMap<>();
+         if(root==null)return res;
+         Queue<Pair> q = new LinkedList<>();
+         q.add(new Pair(root,0));
+         int min = Integer.MAX_VALUE;
+         int max= Integer.MIN_VALUE;
+         while(!q.isEmpty()){
+             Pair top = q.remove();
+             min = Math.min(min,top.dist);
+             max = Math.max(max,top.dist);
+             if(map.containsKey(top.dist)){
+                 List<Integer> row =map.get(top.dist);
+                 row.add(top.node.val);
+                 map.put(top.dist,row);
+             }else{
+                 List<Integer> row = new ArrayList<>();
+                 row.add(top.node.val);
+                 map.put(top.dist,row);
+             }
+             if(top.node.left!=null)q.add(new Pair(top.node.left,top.dist-1));
+             if(top.node.right!=null)q.add(new Pair(top.node.right,top.dist+1));
+         }
+         for(int i=min;i<=max;i++){
+             int size = map.get(i).size();
+             res.add(map.get(i).get(size-1));
+         }
+         return res;
+    }
+}
