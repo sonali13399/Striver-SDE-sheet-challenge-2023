@@ -1,0 +1,44 @@
+public class Solution 
+{
+    static class Pair{
+        TreeNode<Integer> node;
+        int dist;
+        Pair(TreeNode<Integer> node,int dist){
+            this.node = node;this.dist=dist;
+        }
+    }
+    public static ArrayList<Integer> verticalOrderTraversal(TreeNode<Integer> root) 
+    {
+        //    Write your code here.
+        ArrayList<Integer> res = new ArrayList<>();
+        if(root==null)return res;
+
+        Map<Integer,List<Integer>> map= new HashMap<>();
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Pair(root,0));
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        while(!q.isEmpty()){
+            Pair top = q.remove();
+            min = Math.min(min,top.dist);
+            max = Math.max(max,top.dist);
+            if(map.containsKey(top.dist)){
+                List<Integer> row = map.get(top.dist);
+                row.add(top.node.data);
+                map.put(top.dist,row);
+            }else{
+                List<Integer> row = new ArrayList<>();
+                row.add(top.node.data);
+                map.put(top.dist,row);
+            }
+            if(top.node.left!=null)q.add(new Pair(top.node.left,top.dist-1));
+            if(top.node.right!=null)q.add(new Pair(top.node.right,top.dist+1));
+        }
+        for(int i=min;i<=max;i++){
+            for(int num:map.get(i)){
+                res.add(num);
+            }
+        }
+        return res;
+    }
+}
