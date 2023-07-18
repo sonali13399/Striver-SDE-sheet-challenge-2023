@@ -1,0 +1,24 @@
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        int[] ans = new int[nums.length-k+1];
+        Deque<Integer> Q= new ArrayDeque<>();
+        
+        for(int i=0;i<nums.length;i++){
+            //remove out of bound
+            while(!Q.isEmpty() && Q.peekFirst()<= i-k){
+                Q.pollFirst();
+            }
+            //remove val which are less than current val
+            while(!Q.isEmpty() && nums[Q.peekLast()]<nums[i]){
+                Q.pollLast();
+            }
+            //add curr idx
+            Q.offerLast(i);
+            //add to answer
+            if(i>= k-1){
+                ans[i-k+1]=nums[Q.peekFirst()];
+            }
+        }
+        return ans;
+    }
+}
