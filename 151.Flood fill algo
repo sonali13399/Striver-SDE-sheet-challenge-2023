@@ -1,0 +1,39 @@
+class Pair{
+    int x;
+    int y;
+    Pair(int i,int j){
+        x=i;y=j;
+    }
+}
+class Solution {
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        int orig=image[sr][sc];
+        int row=image.length,col=image[0].length;
+        boolean[][] visited=new boolean[row][col];
+
+        bfs(sr,sc,image,visited,orig,color,row,col);
+        return image;
+    }
+    public void bfs(int i,int j,int[][] image,boolean[][] visited,int orig,int color,int n,int m){
+        int[] dx={0,0,-1,1};
+        int[] dy={-1,1,0,0};
+        image[i][j]=color;
+        visited[i][j]=true;
+        Queue<Pair> q=new ArrayDeque<>();
+        q.offer(new Pair(i,j));
+        int newI=0,newJ=0;
+        while(q.size() > 0){
+            Pair top=q.peek(); q.poll();
+            for(int k=0;k<4;k++){
+                newI=top.x +dx[k];newJ=top.y +dy[k];
+                if(isValid(newI,newJ,orig,color,n,m,visited,image) == true){
+                     image[newI][newJ]=color;visited[newI][newJ]=true;
+                     q.offer(new Pair(newI,newJ));
+                }
+            }
+        }
+    }
+    public boolean isValid(int i,int j,int orig,int color,int n, int m,boolean[][] visited,int[][] image){
+        return (i>=0 && i<n && j>=0 && j<m && (image[i][j]==orig) && visited[i][j]==false);
+    }
+}
