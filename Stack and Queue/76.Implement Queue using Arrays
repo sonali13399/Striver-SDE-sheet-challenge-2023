@@ -1,0 +1,29 @@
+public class Solution {
+    class Queue {
+        int[] que;
+    int f, r;
+
+    Queue() {
+        // Implement the Constructor
+        que = new int[100001];
+        f = 0;
+        r = 0;
+    }
+
+       
+
+        // Enqueue (add) element 'e' at the end of the queue.
+        public void enqueue(int data) {
+        // Implement the enqueue() function
+        if (r < 100001)
+            que[r++] = data;
+    }
+
+    public int dequeue() {
+        // Implement the dequeue() function
+        if (f != r)
+            return que[f++];
+        return -1;
+    }
+    }
+}
