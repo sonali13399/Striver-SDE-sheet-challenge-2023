@@ -1,0 +1,53 @@
+
+class Trie {
+    class TrieNode{ 
+        HashMap<Character,TrieNode> child = new HashMap<>();
+        boolean isEnd;
+        //int cnt=0;
+    }
+    static TrieNode root;
+    public Trie() {
+        root = new TrieNode();
+    }
+    
+    public void insert(String word) {
+        TrieNode tmp = root;
+        for(int i=0;i<word.length();i++){
+            if(!tmp.child.containsKey(word.charAt(i))){
+                tmp.child.put(word.charAt(i),new TrieNode());
+            }
+            tmp=tmp.child.get(word.charAt(i));//tmp.cnt++;
+        }
+        tmp.isEnd=true;
+    }
+    
+    public boolean search(String word) {
+        TrieNode tmp = root;
+        for(int i=0;i<word.length();i++){
+            if(!tmp.child.containsKey(word.charAt(i))){
+                return false;
+            }
+            tmp=tmp.child.get(word.charAt(i));
+        }
+        return tmp.isEnd;
+    }
+    
+    public boolean startsWith(String prefix) {
+        TrieNode tmp = root;
+        for(int i=0;i<prefix.length();i++){
+            if(!tmp.child.containsKey(prefix.charAt(i))){
+                return false;
+            }
+            tmp=tmp.child.get(prefix.charAt(i));
+        }
+        return true;
+    }
+}
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie obj = new Trie();
+ * obj.insert(word);
+ * boolean param_2 = obj.search(word);
+ * boolean param_3 = obj.startsWith(prefix);
+ */
