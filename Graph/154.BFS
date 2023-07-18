@@ -1,0 +1,46 @@
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+	public static ArrayList<Integer> BFS(int vertex, int edges[][]){
+		// WRITE YOUR CODE HERE
+		ArrayList<Integer> ans = new ArrayList<>();
+		ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+		for(int i=0;i<vertex;i++){
+			adj.add(new ArrayList<>());
+		}
+		
+		for (int i = 0; i < edges[0].length; i++) {
+            adj.get(edges[0][i]).add(edges[1][i]);
+            adj.get(edges[1][i]).add(edges[0][i]);
+        }
+		int[] vis=new int[vertex];
+		for(int i=0;i<vertex;i++){
+			if(vis[i]==0){
+				bfs(i,vis,adj,ans);
+			}
+		}
+		return ans;
+	}
+	public static void bfs(int src,int[] vis,ArrayList<ArrayList<Integer>> adj,ArrayList<Integer> ans){
+		Queue<Integer> q=new LinkedList<>();
+		q.add(src);
+		ans.add(src);
+		vis[src]=1;
+		while(!q.isEmpty()){
+				ArrayList<Integer> subrow=new ArrayList<>();
+				int top = q.remove();
+				
+				for(int u:adj.get(top)){
+					if(vis[u]==0){
+						q.add(u);
+						vis[u]=1;
+						subrow.add(u);
+					}
+				}
+				Collections.sort(subrow);
+				ans.addAll(subrow);
+			
+		}
+	}
+}
+
