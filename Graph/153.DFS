@@ -1,0 +1,37 @@
+import java.util.*;
+
+public class Solution {
+    public static ArrayList<ArrayList<Integer>> depthFirstSearch(int v, int e, ArrayList<ArrayList<Integer>> edges) {
+        // Write your code here.
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        for(int i=0;i<v;i++){
+            adj.add(new ArrayList<>());
+        }
+        for(ArrayList<Integer> ed:edges){
+            int a=ed.get(0);
+            int b=ed.get(1);
+            adj.get(a).add(b);
+            adj.get(b).add(a);
+        }
+        int[] vis = new int[v];
+        for(int i=0;i<v;i++){
+            if(vis[i]==0){
+                ArrayList<Integer> row = new ArrayList<>();
+                dfs(i,vis,row,adj);
+                Collections.sort(row);
+                res.add(row);
+            }
+        }
+        return res;
+    }
+    public static void dfs(int src,int[] vis,ArrayList<Integer> row,ArrayList<ArrayList<Integer>> adj){
+        vis[src]=1;
+        row.add(src);
+        for(int u:adj.get(src)){
+            if(vis[u]==0){
+                dfs(u,vis,row,adj);
+            }
+        }
+    }
+}
