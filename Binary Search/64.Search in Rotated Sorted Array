@@ -1,0 +1,37 @@
+class Solution {
+    public int search(int[] nums, int target) {
+        int k=findK(nums);int low=0,high=0;
+        if(target <=nums[nums.length-1]){
+            low = k+1;high=nums.length-1;
+        }else{
+            low=0;high=k;
+        }
+        if(k == -1){
+            low=0;high=nums.length-1;
+        }
+        while(low<=high){
+            int mid=low+(high-low)/2;
+            if(nums[mid]==target){
+                return mid;
+            }else if(nums[mid]< target){
+                low=mid+1;
+            }else{
+                high=mid-1;
+            }
+        }
+        return -1;
+    }
+    public int findK(int[] nums){
+        int l=0,r=nums.length-1;
+        int ans=-1;
+        while(l<=r){
+            int m=l+(r-l)/2;
+            if(nums[m]>nums[nums.length-1]){
+                ans=m;l=m+1;
+            }else{
+                r=m-1;
+            }
+        }
+        return ans;
+    }
+}
