@@ -1,0 +1,29 @@
+import java.util.ArrayList;
+
+public class Solution {
+	public static int maxProfit(ArrayList<Integer> val, ArrayList<Integer> wt, int n, int W) {
+		// Write your code here.
+		int prev[]=new int[W+1];
+    
+    //Base Condition
+    
+    for(int i=wt.get(0); i<=W; i++){
+        prev[i] = val.get(0);
+    }
+    
+    for(int ind =1; ind<n; ind++){
+        for(int cap=W; cap>=0; cap--){
+            
+            int notTaken = 0 + prev[cap];
+            
+            int taken = Integer.MIN_VALUE;
+            if(wt.get(ind) <= cap)
+                taken = val.get(ind) + prev[cap - wt.get(ind)];
+                
+            prev[cap] = Math.max(notTaken, taken);
+        }
+    }
+    
+    return prev[W];
+	}
+}
