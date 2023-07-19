@@ -1,0 +1,33 @@
+class Solution {
+    
+    public boolean canPartition(int[] nums) {
+        
+        int sum=0;
+        for(int a:nums){
+            sum += a;
+        }
+        
+        if((sum&1)==1)return false;
+        sum=sum/2;
+        boolean[] prev = new boolean[sum+1];
+        prev[0]=true;
+        
+        for(int idx=1;idx<=nums.length;idx++){
+            boolean[] temp = new boolean[sum+1];
+            temp[0]=true;
+            for(int target=1;target<=sum;target++){
+                boolean non_take = prev[target];
+                boolean take = false;
+                if(nums[idx-1]<=target){
+                    take = prev[target-nums[idx-1]];
+                }
+                
+                temp[target] = non_take|take;
+            }
+            prev=temp;
+        }
+        return prev[sum];
+        
+    }
+    
+}
