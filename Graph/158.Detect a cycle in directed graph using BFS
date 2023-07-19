@@ -1,0 +1,38 @@
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+public class Solution {
+  public static boolean detectCycleInDirectedGraph(int n, ArrayList < ArrayList < Integer >> edges) {
+    // Write your code here.
+    ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+    for(int i=0;i<n+1;i++){
+      adj.add(new ArrayList<>());
+    }
+    for(ArrayList<Integer> edge:edges){
+      adj.get(edge.get(0)).add(edge.get(1));
+    }
+
+    int[] indegree=new int[n+1];
+    for(int i=1;i<n+1;i++){
+      for(int u:adj.get(i)){
+        indegree[u]++;
+      }
+    }
+    Queue<Integer> q = new LinkedList<>();
+    for(int i=1;i<n+1;i++){
+      if(indegree[i]==0)q.add(i);
+    }
+    int count=0;
+    while(!q.isEmpty()){
+      int top = q.remove();
+      count++;
+      for(int u:adj.get(top)){
+        indegree[u]--;
+        if(indegree[u]==0){
+          q.add(u);
+        }
+      }
+    }
+    return (count==n)?false:true;
+  }
+}
