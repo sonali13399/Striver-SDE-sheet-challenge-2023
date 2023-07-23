@@ -1,0 +1,20 @@
+import java.util.*;
+public class Solution {
+    public static int subarraysWithSumK(int []a, int x) {
+        // Write your code here
+        int cnt = 0, temp = 0, n = a.length;
+        Map<Integer, Integer> mp = new HashMap<>();
+        mp.put(0, 1);
+
+        for (int i = 0; i < n; i++) {
+            cnt ^= a[i];
+
+            int xo = cnt ^ x;
+            if (mp.containsKey(xo))
+                temp += mp.get(xo);
+            mp.put(cnt, mp.getOrDefault(cnt, 0) + 1);
+        }
+
+        return temp;
+    }
+}
