@@ -1,0 +1,42 @@
+class Pair implements Comparable<Pair>{
+    int dist;
+    int node;
+    Pair(int dist,int node){
+        this.dist=dist;this.node=node;
+    }
+    
+    @Override
+       public int compareTo(Pair o) {
+           return this.dist-o.dist;
+       }
+}
+class Solution
+{
+    //Function to find the shortest distance of all the vertices
+    //from the source vertex S.
+    static int[] dijkstra(int V, ArrayList<ArrayList<ArrayList<Integer>>> adj, int S)
+    {
+        // Write your code here
+        int[] result=new int[V];
+        Arrays.fill(result,Integer.MAX_VALUE);
+        result[S]=0;
+        PriorityQueue<Pair> minHeap=new PriorityQueue<Pair>();
+        minHeap.offer(new Pair(0,S));
+        while(!minHeap.isEmpty()){
+            Pair top = minHeap.poll();
+            int d=top.dist;
+            int n=top.node;
+            
+            for(ArrayList<Integer> p:adj.get(n)){
+                int node_name=p.get(0);
+                int node_dist=p.get(1);
+                
+                if(d+node_dist < result[node_name]){
+                    result[node_name]=d+node_dist;
+                    minHeap.offer(new Pair(result[node_name],node_name));
+                }
+            }
+        }
+        return result;
+    }
+}
