@@ -1,0 +1,92 @@
+class pair{
+    
+    int node;
+    int dis;
+    
+    pair(int node,int dis)
+    {
+        this.node=node;
+        this.dis=dis;
+    }
+}
+class Solution{
+static int spanningTree(int V, int E, int edges[][]){
+    // Code Here. 
+    
+    ArrayList<ArrayList<pair>> adj=new ArrayList<>();
+    
+    for(int i=0;i<V;i++)
+    {
+        adj.add(new ArrayList<>());
+        
+    }
+    
+    for(int i=0;i<E;i++)
+    {
+        
+        int v=edges[i][0];
+        int u=edges[i][1];
+        int dis=edges[i][2];
+        
+        adj.get(v).add(new pair(u,dis));
+        adj.get(u).add(new pair(v,dis));
+        
+    }
+    
+   boolean mst[];
+   int parent[];
+   int key[];
+   mst=new boolean[V];
+   parent=new int[V];
+   key=new int[V];
+   
+   Arrays.fill(mst,false);
+   Arrays.fill(parent,-1);
+   Arrays.fill(key,Integer.MAX_VALUE);
+   int ans=0;
+//src
+   
+   key[0]=0;
+   parent[0]=-1;
+//  mst[0]=true;
+   
+   for(int i=0;i<V;i++)
+   {
+       int mini=Integer.MAX_VALUE;
+       int node=-1;
+       for(int j=0;j<V;j++)
+       {
+           if(key[j]<mini && !mst[j])
+           {
+               node=j;
+               mini=key[j];
+           }
+       }
+       
+       if(node!=-1)
+       {
+         mst[node]=true;
+       
+       for(pair p:adj.get(node))
+       {
+           
+           int val=p.node;
+           int dis=p.dis;
+           
+           if(dis<key[val]&&!mst[val])
+           {
+               parent[val]=node;
+               key[val]=dis;
+               //ans=ans+key[val];
+              // mst[val]=true;
+           
+           }
+
+       }}
+   }
+  for(int i:key){
+   ans+=i;
+  }
+return ans;
+}
+}
