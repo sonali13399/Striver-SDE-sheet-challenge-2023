@@ -1,0 +1,37 @@
+class Solution {
+    public static ArrayList<String> findPath(int[][] m, int n) {
+        ArrayList<String> ans = new ArrayList<>();
+        String s = "";
+        if(m[0][0] == 0){
+            ans.add("-1");
+            return ans;
+        }
+        solve(0, 0, m, n, ans, s, new boolean[n][n]);
+        Collections.sort(ans);
+        return ans;
+    }
+    public static void solve(int row , int col, int[][] m, int n,ArrayList<String> ans, String s, boolean vis[][]){
+      if(row == n-1 && col == n-1){
+            ans.add(s);
+            return;
+        }
+        
+        int drow[] = {-1,0,1,0};
+        int dcol[] = {0,1,0,-1};
+        char arr[] = {'U', 'R', 'D', 'L'};
+        
+        for(int i =0; i< 4 ; i++){
+            int nrow = row + drow[i];
+            int ncol = col + dcol[i];
+            
+            if(nrow>=0 && nrow<n && ncol>=0 && ncol < n && m[nrow][ncol] == 1 && vis[nrow][ncol] == false){
+                s = s + arr[i];
+                vis[row][col] = true;
+                solve(nrow, ncol , m, n, ans, s, vis);
+                s = s.substring(0, s.length() - 1); 
+                vis[row][col] = false;
+                
+            }
+        }
+    }
+}
