@@ -1,0 +1,30 @@
+class JobComp implements Comparator<Job> {
+    public int compare(Job a,Job b){
+        return b.profit-a.profit;
+    }
+}
+class Solution{
+int[] JobScheduling(Job arr[], int n)
+    {
+        // Your code here
+        Arrays.sort(arr,new JobComp());
+        int num=Integer.MIN_VALUE;
+        for(Job j : arr){
+            num=Math.max(num,j.deadline);
+        }
+        int[] slot=new int[num+1];
+        Arrays.fill(slot,0);
+        int count=0,profit=0;
+        for(Job j : arr){
+            for(int i=j.deadline;i>0;i--){
+                if(slot[i]==0){
+                    slot[i]=1;
+                    count++;
+                    profit+=j.profit;
+                    break;
+                }
+            }
+        }
+        return new int[]{count,profit};
+    }
+}
